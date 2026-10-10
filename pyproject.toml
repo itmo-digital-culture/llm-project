@@ -30,6 +30,7 @@ filterwarnings = ["ignore::DeprecationWarning:starlette.*"]
 [tool.ruff]
 line-length = 120
 target-version = "py311"
+extend-exclude = ["*.md"]  # форматтер не должен править код внутри документов
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
