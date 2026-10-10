@@ -16,6 +16,6 @@ jobs:
       - run: uv run ruff check .
       - name: platform tests
         run: uv run pytest -q tests/infra erp/tests
-      # Контрактные тесты краснеют, пока модули из раздела 4 технического задания не написаны.
+      # Контрактные тесты краснеют, пока шесть модулей из README не написаны.
       - name: contract tests
         run: uv run pytest -q tests/contract

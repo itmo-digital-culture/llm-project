@@ -151,10 +151,10 @@ def _score(found: set, required: set, allowed: set) -> dict:
 
 
 def evaluate_extraction(gold: dict, results: list[ExtractionResult]) -> dict:
-    """Точность и полнота извлечения на документах с эталоном.
+    """Precision и Recall извлечения на документах с эталоном.
 
-    Полнота считается по обязательным связям. Связь из `optional_relations` верна,
-    поэтому точность она не снижает, хотя находить её не обязательно.
+    Recall считается по обязательным связям. Связь из `optional_relations` верна,
+    поэтому Precision она не снижает, хотя находить её не обязательно.
     """
     found_rel, found_ent, need_rel, need_ent, ok_rel, ok_ent = set(), set(), set(), set(), set(), set()
     documents, dropped = set(), 0

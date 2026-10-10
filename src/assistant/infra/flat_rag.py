@@ -1,4 +1,4 @@
-"""Плоский RAG из недели 7: точка отсчёта, с которой сравнивается граф."""
+"""Плоский RAG: точка отсчёта, с которой сравнивается граф."""
 
 from assistant.infra.schemas import Answer, Chunk
 from assistant.infra.vector_index import VectorIndex

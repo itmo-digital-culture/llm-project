@@ -3,6 +3,7 @@
 #   make test RUN="uv run"
 RUN ?= docker compose run --rm app
 MODE ?= agent
+ARGS ?=
 Q ?= Ошибка E-17 на AR-210. Какую деталь заказать, есть ли она на складе в Казани и сколько она стоит?
 
 include .env
@@ -38,8 +39,8 @@ eval-all: ## прогнать открытые вопросы в четырёх 
 eval-extraction: ## качество извлечения на эталоне
 	$(RUN) python -m assistant eval-extraction
 
-test: ## контрактные тесты и тесты платформы
-	$(RUN) pytest -q
+test: ## все тесты; один файл: make test ARGS=tests/contract/test_tools_and_agent.py
+	$(RUN) pytest -q $(ARGS)
 
 lint: ## линтер
 	$(RUN) ruff check .

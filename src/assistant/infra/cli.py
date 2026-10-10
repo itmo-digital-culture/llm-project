@@ -106,7 +106,7 @@ def cmd_eval(args, context: Context) -> None:
     summary = report["summary"]
     by_type = ", ".join(f"{kind} {value['accuracy']:.2f}" for kind, value in summary["by_type"].items())
     print(
-        f"{args.mode}: точность {summary['accuracy']:.2f} ({by_type}), "
+        f"{args.mode}: верных ответов {summary['accuracy']:.2f} ({by_type}), "
         f"выдуманные факты {summary['fabricated_rate']:.2f}, "
         f"вызовов модели на вопрос {summary['llm_calls_per_question']:.1f}"
     )
@@ -121,8 +121,8 @@ def cmd_eval_extraction(args, context: Context) -> None:
     report = evaluate_extraction(gold, [extraction.extract_chunk(chunk, context.llm) for chunk in chunks])
     _dump(settings.artifacts_dir / "eval_extraction.json", report)
     print(
-        f"извлечение: связи точность {report['relations']['precision']:.2f}, "
-        f"полнота {report['relations']['recall']:.2f}, отброшено проверками {report['dropped']}"
+        f"извлечение: связи Precision {report['relations']['precision']:.2f}, "
+        f"Recall {report['relations']['recall']:.2f}, отброшено проверками {report['dropped']}"
     )
 
 
