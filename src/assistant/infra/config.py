@@ -1,9 +1,9 @@
 """Настройки из переменных окружения. Значения по умолчанию подходят для запуска без контейнеров."""
 
 import os
-from functools import lru_cache
 from collections.abc import Mapping
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 
 from assistant.infra.erp_client import ErpClient

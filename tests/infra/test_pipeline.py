@@ -126,35 +126,6 @@ def test_load_kb_without_index_explains_what_to_run(settings):
         indexing.load_kb(settings)
 
 
-@pytest.mark.parametrize(
-    ("module", "name"),
-    [
-        ("graphrag.extraction", "extract_chunk"),
-        ("graphrag.graph_builder", "build_graph"),
-        ("graphrag.communities", "detect_communities"),
-        ("graphrag.communities", "summarize_community"),
-        ("graphrag.search", "local_search"),
-        ("graphrag.search", "global_search"),
-        ("agent.tools", "build_tools"),
-        ("agent.agent", "run_agent"),
-    ],
-)
-def test_student_stubs_name_the_function_to_implement(module, name):
-    import importlib
-    import inspect
-
-    function = getattr(importlib.import_module(f"assistant.{module}"), name)
-    arguments = [None] * len(
-        [
-            p
-            for p in inspect.signature(function).parameters.values()
-            if p.default is p.empty and p.kind is not p.KEYWORD_ONLY
-        ]
-    )
-    with pytest.raises(NotImplementedError, match=name):
-        function(*arguments)
-
-
 def test_eval_command_writes_the_report_for_the_baseline(settings, capsys):
     context = cli.Context(settings, FakeLLM(["Деталь заменена на P-1042B."]), erp=None)
     cli.main(["eval", "--mode", "baseline"], context)
@@ -205,6 +176,12 @@ def test_http_api_explains_a_missing_index_and_unfinished_code(settings, monkeyp
     missing = client.post("/ask", json={"question": "Чем заменена P-1042?", "mode": "local"})
     assert missing.status_code == 409 and "make index" in missing.json()["detail"]
     indexing.save_kb(KnowledgeBase(nx.DiGraph(), [], {}), settings)
+    from assistant.graphrag import search
+
+    def unfinished_search(question, kb, llm):
+        raise NotImplementedError("Реализуйте local_search")
+
+    monkeypatch.setattr(search, "local_search", unfinished_search)
     unfinished = client.post("/ask", json={"question": "Чем заменена P-1042?", "mode": "local"})
     assert unfinished.status_code == 501 and "local_search" in unfinished.json()["detail"]
 

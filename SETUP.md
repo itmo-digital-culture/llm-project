@@ -42,7 +42,7 @@ make test
 make eval MODE=baseline
 ```
 
-`make test` сначала покажет ошибки `NotImplementedError` в тестах ваших модулей. Это ожидаемо: так выглядит список работ.
+`make test` сначала покажет 50 упавших контрактных тестов из `tests/contract/` с ошибкой `NotImplementedError`. Это ожидаемо: так выглядит список работ. Тесты платформы из `tests/infra/` и `erp/tests/` при этом проходят.
 
 `make eval MODE=baseline` прогоняет открытые вопросы через готовый плоский RAG и пишет отчёт в `artifacts/eval_baseline.json`. Первый запуск занимает несколько минут, повторный берёт ответы модели из кеша `artifacts/llm_cache/`.
 

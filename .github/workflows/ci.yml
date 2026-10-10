@@ -14,4 +14,8 @@ jobs:
           version: "0.10.8"
       - run: uv sync --frozen
       - run: uv run ruff check .
-      - run: uv run pytest -q
+      - name: platform tests
+        run: uv run pytest -q tests/infra erp/tests
+      # Контрактные тесты краснеют, пока модули из раздела 4 технического задания не написаны.
+      - name: contract tests
+        run: uv run pytest -q tests/contract
