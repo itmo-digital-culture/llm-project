@@ -48,6 +48,13 @@ EXTRACTION_SCHEMA = {
     "required": ["entities", "relations"],
 }
 
+# JSON-схема частичного ответа в режиме global: ответ по одной сводке и оценка её полезности.
+MAP_SCHEMA = {
+    "type": "object",
+    "properties": {"answer": {"type": "string"}, "score": {"type": "integer", "minimum": 0, "maximum": 10}},
+    "required": ["answer", "score"],
+}
+
 
 @dataclass(frozen=True)
 class Chunk:

@@ -16,3 +16,13 @@ def test_environment_overrides_defaults():
     )
     assert settings.llm_model == "t-tech/T-lite-it-2.1:q4_K_M" and settings.erp_url == "http://erp:8100"
     assert settings.data_dir == Path("/srv/data")
+
+
+def test_vocabulary_is_read_from_the_data_directory(tmp_path, monkeypatch):
+    from assistant.infra import config
+
+    (tmp_path / "vocabulary.json").write_text('{"Component": ["пусковое реле"]}', encoding="utf-8")
+    monkeypatch.setenv("DATA_DIR", str(tmp_path))
+    config.vocabulary.cache_clear()
+    assert config.vocabulary() == {"Component": ["пусковое реле"]}
+    config.vocabulary.cache_clear()

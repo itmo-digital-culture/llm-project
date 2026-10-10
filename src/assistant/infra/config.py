@@ -1,11 +1,13 @@
 """Настройки из переменных окружения. Значения по умолчанию подходят для запуска без контейнеров."""
 
 import os
+from functools import lru_cache
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
 from assistant.infra.erp_client import ErpClient
+from assistant.infra.grounding import load_vocabulary
 from assistant.infra.llm import LLMClient
 
 
@@ -31,6 +33,12 @@ class Settings:
             data_dir=Path(env.get("DATA_DIR", defaults.data_dir)),
             artifacts_dir=Path(env.get("ARTIFACTS_DIR", defaults.artifacts_dir)),
         )
+
+
+@lru_cache
+def vocabulary() -> dict[str, list[str]]:
+    """Словарь названий из data/vocabulary.json. Нужен там, где нет доступа к KnowledgeBase."""
+    return load_vocabulary(Settings.from_env().data_dir / "vocabulary.json")
 
 
 def make_llm(settings: Settings) -> LLMClient:

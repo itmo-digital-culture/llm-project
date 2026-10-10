@@ -27,3 +27,10 @@ def test_extraction_schema_lists_types_as_enums():
     assert entity["type"]["enum"] == list(ENTITY_TYPES)
     assert relation["type"]["enum"] == list(RELATION_SIGNATURES)
     assert relation["subject_type"]["enum"] == list(ENTITY_TYPES)
+
+
+def test_map_schema_asks_for_a_partial_answer_and_a_score():
+    from assistant.infra.schemas import MAP_SCHEMA
+
+    assert MAP_SCHEMA["required"] == ["answer", "score"]
+    assert MAP_SCHEMA["properties"]["score"] == {"type": "integer", "minimum": 0, "maximum": 10}
