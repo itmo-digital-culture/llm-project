@@ -25,6 +25,7 @@ packages = ["src/assistant"]
 [tool.pytest.ini_options]
 testpaths = ["tests", "erp/tests"]
 pythonpath = ["."]
+filterwarnings = ["ignore::DeprecationWarning:starlette.*"]
 
 [tool.ruff]
 line-length = 120
