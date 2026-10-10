@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from assistant.infra import api, cli, indexing
 from assistant.infra.config import Settings
 from assistant.infra.flat_rag import FlatRag
-from assistant.infra.schemas import Answer, Chunk, Community, Entity, ExtractionResult, Relation
+from assistant.infra.schemas import Answer, Chunk, Community, Entity, ExtractionResult, KnowledgeBase, Relation
 from assistant.infra.testing import FakeLLM
 
 
@@ -197,3 +197,18 @@ def test_http_api_answers_through_the_same_runner(settings, monkeypatch):
     reply = client.post("/ask", json={"question": "Чем заменена P-1042?", "mode": "baseline"}).json()
     assert reply["answer"] == "На P-1042B." and reply["sources"] and reply["refused"] is False
     assert client.post("/ask", json={"question": "?", "mode": "telepathy"}).status_code == 422
+
+
+def test_http_api_explains_a_missing_index_and_unfinished_code(settings, monkeypatch):
+    monkeypatch.setattr(api, "make_context", lambda: cli.Context(settings, FakeLLM([]), erp=None))
+    client = TestClient(api.create_app())
+    missing = client.post("/ask", json={"question": "Чем заменена P-1042?", "mode": "local"})
+    assert missing.status_code == 409 and "make index" in missing.json()["detail"]
+    indexing.save_kb(KnowledgeBase(nx.DiGraph(), [], {}), settings)
+    unfinished = client.post("/ask", json={"question": "Чем заменена P-1042?", "mode": "local"})
+    assert unfinished.status_code == 501 and "local_search" in unfinished.json()["detail"]
+
+
+def test_command_line_reports_a_missing_index_without_a_traceback(settings):
+    with pytest.raises(SystemExit, match="make index"):
+        cli.main(["eval", "--mode", "local"], cli.Context(settings, FakeLLM([]), erp=None))

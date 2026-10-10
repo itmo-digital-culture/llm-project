@@ -2,7 +2,7 @@
 
 from typing import Literal
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from assistant.infra.cli import make_context, runner
@@ -26,7 +26,12 @@ def create_app() -> FastAPI:
     def ask(body: AskIn) -> dict:
         if "context" not in state:
             state["context"] = make_context()
-        outcome = runner(body.mode, state["context"], body.confirm)(body.question)
+        try:
+            outcome = runner(body.mode, state["context"], body.confirm)(body.question)
+        except FileNotFoundError as exc:  # индекс ещё не построен
+            raise HTTPException(409, str(exc)) from exc
+        except NotImplementedError as exc:  # модуль студента ещё не написан
+            raise HTTPException(501, str(exc)) from exc
         return {
             "answer": outcome.text,
             "sources": outcome.sources,

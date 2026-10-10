@@ -12,6 +12,7 @@ from assistant.infra.config import Settings, make_erp, make_llm
 from assistant.infra.evaluation import Outcome, evaluate, evaluate_extraction
 from assistant.infra.flat_rag import FlatRag
 from assistant.infra.grounding import find_codes
+from assistant.infra.llm import LLMError
 
 MODES = ("baseline", "local", "global", "agent")
 
@@ -140,11 +141,14 @@ def main(argv: list[str] | None = None, context: Context | None = None) -> None:
     commands.add_parser("eval-extraction", help="качество извлечения на эталоне")
     args = parser.parse_args(argv)
     context = context or make_context()
-    if args.command == "index":
-        indexing.build_index(context.settings, context.llm)
-    elif args.command == "ask":
-        cmd_ask(args, context)
-    elif args.command == "eval":
-        cmd_eval(args, context)
-    else:
-        cmd_eval_extraction(args, context)
+    try:
+        if args.command == "index":
+            indexing.build_index(context.settings, context.llm)
+        elif args.command == "ask":
+            cmd_ask(args, context)
+        elif args.command == "eval":
+            cmd_eval(args, context)
+        else:
+            cmd_eval_extraction(args, context)
+    except (FileNotFoundError, LLMError) as exc:
+        raise SystemExit(f"Ошибка: {exc}") from exc
