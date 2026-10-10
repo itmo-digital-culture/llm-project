@@ -1,4 +1,5 @@
 """Настройки из переменных окружения. Значения по умолчанию подходят для запуска без контейнеров."""
+
 import os
 from collections.abc import Mapping
 from dataclasses import dataclass

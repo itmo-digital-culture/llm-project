@@ -4,6 +4,7 @@
 температура 0 и фиксированное зерно. Одинаковый запрос второй раз берётся из кеша,
 но в статистике считается как обычный вызов, чтобы стоимость режимов можно было сравнивать.
 """
+
 import hashlib
 import json
 from dataclasses import dataclass, field
@@ -95,7 +96,13 @@ class LLMClient:
         инструмент, вызовы лежат в `tool_calls`. json_schema – схема, которой должен
         соответствовать текст ответа.
         """
-        body: dict = {"model": self.model, "messages": messages, "temperature": 0, "seed": SEED, "max_tokens": max_tokens}
+        body: dict = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": 0,
+            "seed": SEED,
+            "max_tokens": max_tokens,
+        }
         if tools:
             body["tools"] = tools
         if json_schema:
@@ -128,7 +135,9 @@ class LLMClient:
             data = self._post("embeddings", {"model": self.embed_model, "input": missing})
             for text, row in zip(missing, data["data"], strict=True):
                 vectors[text] = row["embedding"]
-                self._write(self._key("embeddings", {"model": self.embed_model, "input": text}), {"embedding": row["embedding"]})
+                self._write(
+                    self._key("embeddings", {"model": self.embed_model, "input": text}), {"embedding": row["embedding"]}
+                )
         return [vectors[text] for text in texts]
 
     def _cached(self, path: str, body: dict) -> dict:
@@ -145,7 +154,9 @@ class LLMClient:
         try:
             response = self._http.post(path, json=body)
         except httpx.HTTPError as exc:
-            raise LLMError(f"сервис модели недоступен ({exc}). Проверьте, что он запущен, и адрес LLM_BASE_URL") from exc
+            raise LLMError(
+                f"сервис модели недоступен ({exc}). Проверьте, что он запущен, и адрес LLM_BASE_URL"
+            ) from exc
         if response.status_code != 200:
             raise LLMError(f"сервис модели ответил кодом {response.status_code}: {response.text[:300]}")
         return response.json()

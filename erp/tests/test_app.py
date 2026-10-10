@@ -35,7 +35,10 @@ def client(seed_path: Path) -> TestClient:
 
 def test_price_and_discontinued_flag(client):
     assert client.get("/parts/P-1042B").json() == {
-        "part_id": "P-1042B", "name": "пусковое реле", "price_rub": 2630, "discontinued": False,
+        "part_id": "P-1042B",
+        "name": "пусковое реле",
+        "price_rub": 2630,
+        "discontinued": False,
     }
     assert client.get("/parts/P-1042").json()["discontinued"] is True
 
@@ -61,7 +64,12 @@ def test_order_is_created_and_can_be_read_back(client):
     created = client.post("/orders", json={"part_id": "P-1042B", "warehouse": "Казань", "qty": 2, "model": "AR-210"})
     assert created.status_code == 201
     assert created.json() == {
-        "order_id": "SO-000001", "part_id": "P-1042B", "warehouse": "Казань", "qty": 2, "model": "AR-210", "status": "created",
+        "order_id": "SO-000001",
+        "part_id": "P-1042B",
+        "warehouse": "Казань",
+        "qty": 2,
+        "model": "AR-210",
+        "status": "created",
     }
     assert client.get("/orders/SO-000001").json() == created.json()
     assert client.get("/orders/SO-000002").status_code == 404
@@ -100,13 +108,20 @@ def test_generated_seed_loads_if_present():
     client = TestClient(create_app(seed, fail_rate=0.0))
     assert client.get("/warehouses").json() == ["Москва", "Санкт-Петербург", "Казань", "Новосибирск"]
     assert client.get("/stock/P-1042B", params={"warehouse": "Казань"}).json() == {
-        "part_id": "P-1042B", "warehouse": "Казань", "qty": 3, "discontinued": False,
+        "part_id": "P-1042B",
+        "warehouse": "Казань",
+        "qty": 3,
+        "discontinued": False,
     }
 
 
 def test_orders_get_consecutive_numbers(client):
     body = {"part_id": "P-1042B", "warehouse": "Казань", "qty": 1, "model": "AR-210"}
-    assert [client.post("/orders", json=body).json()["order_id"] for _ in range(3)] == ["SO-000001", "SO-000002", "SO-000003"]
+    assert [client.post("/orders", json=body).json()["order_id"] for _ in range(3)] == [
+        "SO-000001",
+        "SO-000002",
+        "SO-000003",
+    ]
 
 
 def test_fail_rate_is_read_from_the_environment(seed_path, monkeypatch):

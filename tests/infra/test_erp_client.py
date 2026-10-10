@@ -35,7 +35,12 @@ def erp(seed_path) -> ErpClient:
 
 
 def test_value_received(erp):
-    assert erp.get_price("P-1042B") == {"part_id": "P-1042B", "name": "пусковое реле", "price_rub": 2630, "discontinued": False}
+    assert erp.get_price("P-1042B") == {
+        "part_id": "P-1042B",
+        "name": "пусковое реле",
+        "price_rub": 2630,
+        "discontinued": False,
+    }
     assert erp.get_stock("P-1042B", "Казань")["qty"] == 3
     assert erp.get_stock("P-1042B", "Москва")["qty"] == 0
     assert erp.warehouses() == ["Москва", "Казань"]

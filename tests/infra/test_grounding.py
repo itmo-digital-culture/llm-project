@@ -4,7 +4,11 @@ import pytest
 
 from assistant.infra.grounding import canonical_name, code_type, find_codes, find_names, load_vocabulary, normalize_code
 
-VOCABULARY = {"ProductLine": ["Арктика"], "Component": ["пусковое реле", "реле давления"], "Supplier": ["ХолодКомплект"]}
+VOCABULARY = {
+    "ProductLine": ["Арктика"],
+    "Component": ["пусковое реле", "реле давления"],
+    "Supplier": ["ХолодКомплект"],
+}
 
 
 @pytest.mark.parametrize(
@@ -39,7 +43,12 @@ def test_find_codes_ignores_document_numbers_and_plain_numbers():
 
 
 def test_code_type():
-    assert [code_type(c) for c in ("AR-210", "P-1042B", "E-17", "SP-104")] == ["Model", "Part", "ErrorCode", "Procedure"]
+    assert [code_type(c) for c in ("AR-210", "P-1042B", "E-17", "SP-104")] == [
+        "Model",
+        "Part",
+        "ErrorCode",
+        "Procedure",
+    ]
 
 
 def test_load_vocabulary_reads_the_shipped_file(tmp_path):

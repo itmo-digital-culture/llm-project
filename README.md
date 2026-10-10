@@ -205,20 +205,27 @@
 # src/assistant/graphrag/extraction.py
 def extract_chunk(chunk: Chunk, llm: LLMClient) -> ExtractionResult: ...
 
+
 # src/assistant/graphrag/graph_builder.py
 def build_graph(results: list[ExtractionResult]) -> nx.DiGraph: ...
+
 
 # src/assistant/graphrag/communities.py
 def detect_communities(graph: nx.DiGraph) -> list[Community]: ...
 def summarize_community(community: Community, graph: nx.DiGraph, llm: LLMClient) -> str: ...
 
+
 # src/assistant/graphrag/search.py
 def local_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer: ...
 def global_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer: ...
 
+
 # src/assistant/agent/tools.py
 TOOL_SCHEMAS: list[dict]
+
+
 def build_tools(kb: KnowledgeBase, llm: LLMClient, erp: ErpClient) -> dict[str, Callable[..., dict]]: ...
+
 
 # src/assistant/agent/agent.py
 def run_agent(

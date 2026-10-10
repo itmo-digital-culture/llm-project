@@ -3,6 +3,7 @@
 Код – это модель оборудования (AR-210), деталь (P-1042B), ошибка (E-17) или регламент (SP-104).
 Название – линейка, узел или поставщик из закрытого словаря data/vocabulary.json.
 """
+
 import json
 import re
 from pathlib import Path
@@ -22,9 +23,7 @@ KINDS = {
 CODE_TYPES = {"Model", "Part", "ErrorCode", "Procedure"}
 
 _LETTER = "A-Za-zА-Яа-яЁё"
-_CODE = re.compile(
-    rf"(?<![0-9{_LETTER}])([{_LETTER}]{{1,2}})[- ]?(\d{{2,4}})([{_LETTER}]?)(?![0-9{_LETTER}])"
-)
+_CODE = re.compile(rf"(?<![0-9{_LETTER}])([{_LETTER}]{{1,2}})[- ]?(\d{{2,4}})([{_LETTER}]?)(?![0-9{_LETTER}])")
 
 
 def _canonical(letters: str, digits: str, suffix: str) -> str | None:

@@ -40,7 +40,9 @@ def test_tool_calls_are_parsed_into_dict_arguments():
         {"id": "c1", "type": "function", "function": {"name": "get_price", "arguments": '{"part_id": "P-1042B"}'}},
         {"id": "c2", "type": "function", "function": {"name": "check_stock", "arguments": "не json"}},
     ]
-    reply = make_client(lambda request: chat_reply("", calls)).chat([{"role": "user", "content": "?"}], tools=[{"type": "function"}])
+    reply = make_client(lambda request: chat_reply("", calls)).chat(
+        [{"role": "user", "content": "?"}], tools=[{"type": "function"}]
+    )
     assert reply.tool_calls == [
         ToolCall("c1", "get_price", {"part_id": "P-1042B"}),
         ToolCall("c2", "check_stock", {"_raw": "не json"}),
@@ -55,7 +57,10 @@ def test_json_schema_is_sent_as_response_format():
         return chat_reply("{}")
 
     make_client(handler).chat([{"role": "user", "content": "?"}], json_schema={"type": "object"})
-    assert seen[0]["response_format"] == {"type": "json_schema", "json_schema": {"name": "answer", "schema": {"type": "object"}}}
+    assert seen[0]["response_format"] == {
+        "type": "json_schema",
+        "json_schema": {"name": "answer", "schema": {"type": "object"}},
+    }
 
 
 def test_identical_request_is_served_from_the_disk_cache_but_still_counted(tmp_path):
@@ -120,7 +125,11 @@ def test_history_messages_have_the_openai_shape():
     message = LLMResponse("", [call]).as_message()
     assert message["role"] == "assistant"
     assert message["tool_calls"][0]["function"] == {"name": "get_price", "arguments": '{"part_id": "P-1042B"}'}
-    assert tool_message(call, {"price_rub": 2630}) == {"role": "tool", "tool_call_id": "c1", "content": '{"price_rub": 2630}'}
+    assert tool_message(call, {"price_rub": 2630}) == {
+        "role": "tool",
+        "tool_call_id": "c1",
+        "content": '{"price_rub": 2630}',
+    }
 
 
 def test_fake_llm_replays_the_script_and_records_requests():

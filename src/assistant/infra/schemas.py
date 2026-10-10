@@ -1,4 +1,5 @@
 """Типы данных ассистента и схема графа знаний. Файл менять нельзя."""
+
 from dataclasses import dataclass, field
 
 import networkx as nx

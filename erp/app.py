@@ -4,6 +4,7 @@
 Переменная окружения ERP_FAIL_RATE задаёт долю запросов, на которые сервис отвечает кодом 503:
 так проверяются повторы на стороне ассистента.
 """
+
 import json
 import os
 import random
@@ -34,7 +35,9 @@ def create_app(seed_path: Path = SEED_PATH, fail_rate: float | None = None, fail
         """
         CREATE TABLE parts (part_id TEXT PRIMARY KEY, name TEXT, price_rub INTEGER, discontinued INTEGER);
         CREATE TABLE stock (part_id TEXT, warehouse TEXT, qty INTEGER, PRIMARY KEY (part_id, warehouse));
-        CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, part_id TEXT, warehouse TEXT, qty INTEGER, model TEXT);
+        CREATE TABLE orders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, part_id TEXT, warehouse TEXT, qty INTEGER, model TEXT
+        );
         """
     )
     db.executemany("INSERT INTO parts VALUES (:part_id, :name, :price_rub, :discontinued)", seed["parts"])
@@ -94,8 +97,15 @@ def create_app(seed_path: Path = SEED_PATH, fail_rate: float | None = None, fail
         part = part_row(part_id)
         check_warehouse(warehouse)
         with lock:
-            row = db.execute("SELECT qty FROM stock WHERE part_id = ? AND warehouse = ?", (part_id, warehouse)).fetchone()
-        return {"part_id": part_id, "warehouse": warehouse, "qty": row["qty"], "discontinued": bool(part["discontinued"])}
+            row = db.execute(
+                "SELECT qty FROM stock WHERE part_id = ? AND warehouse = ?", (part_id, warehouse)
+            ).fetchone()
+        return {
+            "part_id": part_id,
+            "warehouse": warehouse,
+            "qty": row["qty"],
+            "discontinued": bool(part["discontinued"]),
+        }
 
     @app.post("/orders", status_code=201)
     def create_order(order: OrderIn) -> dict:
@@ -115,7 +125,9 @@ def create_app(seed_path: Path = SEED_PATH, fail_rate: float | None = None, fail
     def get_order(order_id: str) -> dict:
         number = order_id.removeprefix("SO-")
         with lock:
-            row = db.execute("SELECT * FROM orders WHERE id = ?", (int(number),)).fetchone() if number.isdigit() else None
+            row = (
+                db.execute("SELECT * FROM orders WHERE id = ?", (int(number),)).fetchone() if number.isdigit() else None
+            )
         if row is None:
             raise HTTPException(404, f"заказ {order_id} не найден")
         return order_view(row)

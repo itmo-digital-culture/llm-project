@@ -1,4 +1,5 @@
 """Разбиение документов корпуса на чанки."""
+
 from pathlib import Path
 
 from assistant.infra.schemas import Chunk

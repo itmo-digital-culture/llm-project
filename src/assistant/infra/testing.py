@@ -1,4 +1,5 @@
 """Подставная модель для тестов: отвечает по заранее заданному сценарию и не требует сети."""
+
 import hashlib
 
 from assistant.infra.llm import LLMResponse, LLMStats
