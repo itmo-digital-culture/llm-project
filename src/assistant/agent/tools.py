@@ -17,8 +17,8 @@ def build_tools(kb: KnowledgeBase, llm: LLMClient, erp: ErpClient) -> dict[str, 
 
     Функция проверяет свои аргументы до обращения к ERP: склад из списка, номер детали вида P-1042
     или P-1042B, количество больше нуля. При ошибке возвращает {"error": "..."} и ничего не выполняет.
-    Исключения клиента ERP (`ErpNotFound`, `ErpRejected`, `ErpUnavailable`) означают разные исходы,
-    и в результате инструмента они должны остаться различимыми.
+    `ErpNotFound` и `ErpRejected` превращаются в {"error": "..."} с разным текстом, чтобы исходы
+    оставались различимыми. `ErpUnavailable` передаётся дальше: повторы делает агент (FR-8).
     """
     # TODO: пять функций поверх local_search, global_search и клиента ERP
     raise NotImplementedError("Реализуйте build_tools")

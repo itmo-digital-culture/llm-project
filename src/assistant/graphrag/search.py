@@ -23,6 +23,7 @@ def global_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
 
     Шаг map: для каждой сводки модель даёт частичный ответ и оценку полезности от 0 до 10.
     Шаг reduce: частичные ответы с оценкой выше 0 объединяются в итоговый ответ.
+    Если таких ответов нет, возвращается `Answer(..., refused=True)`.
     """
     # TODO: частичные ответы по сводкам, объединение
     raise NotImplementedError("Реализуйте global_search")

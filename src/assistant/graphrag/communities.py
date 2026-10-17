@@ -7,7 +7,7 @@ from assistant.infra.schemas import Community
 
 
 def detect_communities(graph: nx.DiGraph) -> list[Community]:
-    """Разбивает узлы на сообщества алгоритмом Лувена с фиксированным зерном.
+    """Разбивает узлы на сообщества алгоритмом Лувена с фиксированным `seed`.
 
     Каждый узел входит ровно в одно сообщество. Поле `summary` здесь остаётся пустым.
     """
