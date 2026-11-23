@@ -7,7 +7,7 @@
   "conflicts": 0,
   "llm": {
     "calls": 108,
-    "cache_hits": 10,
+    "cache_hits": 108,
     "prompt_tokens": 181100,
     "completion_tokens": 42962
   }

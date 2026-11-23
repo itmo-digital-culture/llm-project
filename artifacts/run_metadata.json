@@ -14,7 +14,9 @@
     "extraction_and_graph_contract_tests": 13,
     "passed_tests_excluding_unimplemented_agent": 118,
     "ruff": "passed",
-    "artifact_consistency": "passed"
+    "artifact_consistency": "passed",
+    "cached_index_rebuild": "108/108 cache hits; graph and communities byte-identical",
+    "real_local_search": "P-1042B, bulletin_SB-2025-03.md in sources"
   },
   "remaining_team_work": [
     "agent/tools.py",
