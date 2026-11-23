@@ -4,8 +4,10 @@
 Повторные запросы используют кеш LLMClient. Инфраструктурная оценка остаётся неизменной.
 """
 
+import hashlib
 import json
 from datetime import UTC, datetime
+from pathlib import Path
 
 from pydantic import ValidationError
 
@@ -91,6 +93,7 @@ def main() -> None:
         })
     report = {
         "model": llm.model,
+        "extraction_source_sha256": hashlib.sha256(Path(__file__).with_name("extraction.py").read_bytes()).hexdigest(),
         "created_at": datetime.now(UTC).isoformat(),
         "metrics": metrics,
         "dropped_relations": dropped_relations,

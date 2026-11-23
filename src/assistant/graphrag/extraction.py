@@ -85,6 +85,28 @@ def _messages(chunk: Chunk, names: dict[str, list[str]]) -> list[dict]:
              "object_type": "Supplier", "object": "АвтоматикаСевер"},
         ],
     }
+    manual_example = {
+        "entities": [
+            {"type": "Model", "name": "BZ-110"},
+            {"type": "ProductLine", "name": "Бриз"},
+            {"type": "Part", "name": "P-9000"},
+            {"type": "Component", "name": "контроллер"},
+            {"type": "Supplier", "name": "АвтоматикаСевер"},
+            {"type": "ErrorCode", "name": "E-15"},
+        ],
+        "relations": [
+            {"subject_type": "Model", "subject": "BZ-110", "type": "BELONGS_TO",
+             "object_type": "ProductLine", "object": "Бриз"},
+            {"subject_type": "Model", "subject": "BZ-110", "type": "HAS_PART",
+             "object_type": "Part", "object": "P-9000"},
+            {"subject_type": "Part", "subject": "P-9000", "type": "IS_A",
+             "object_type": "Component", "object": "контроллер"},
+            {"subject_type": "Part", "subject": "P-9000", "type": "SUPPLIED_BY",
+             "object_type": "Supplier", "object": "АвтоматикаСевер"},
+            {"subject_type": "ErrorCode", "subject": "E-15", "type": "INDICATES",
+             "object_type": "Component", "object": "контроллер"},
+        ],
+    }
     return [
         {
             "role": "system",
@@ -110,7 +132,14 @@ def _messages(chunk: Chunk, names: dict[str, list[str]]) -> list[dict]:
                 f"{json.dumps(replacement_example, ensure_ascii=False)}\n"
                 "Проверь REPLACED_BY: subject — снятая старая деталь, object — устанавливаемая новая. "
                 "Сохрани тип узла IS_A для обеих взаимозаменяемых деталей. Коды из примеров "
-                "не переноси в результат: извлекай только содержимое следующего документа."
+                "не переноси в результат: извлекай только содержимое следующего документа.\n"
+                "Пример руководства: «BZ-110 входит в линейку Бриз. Состав: контроллер — "
+                "деталь P-9000, поставщик АвтоматикаСевер. Ошибка E-15: отказ контроллера». JSON:\n"
+                f"{json.dumps(manual_example, ensure_ascii=False)}\n"
+                "Для КАЖДОЙ строки состава нужны ТРИ связи: модель HAS_PART номер детали; "
+                "номер детали IS_A название узла; номер детали SUPPLIED_BY поставщик. "
+                "HAS_PART ведёт только к Part с кодом P-..., никогда к Component. "
+                "Не пропускай BELONGS_TO и IS_A. Для каждого кода ошибки добавь INDICATES."
             ),
         },
         {"role": "user", "content": f"Документ {chunk.doc_id}, чанк {chunk.chunk_id}:\n{chunk.text}"},
