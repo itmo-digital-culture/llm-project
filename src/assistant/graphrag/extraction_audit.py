@@ -64,14 +64,13 @@ def main() -> None:
     dropped_relations = 0
     invalid_chunks = []
     for chunk in load_chunks(settings.data_dir / "corpus"):
-        if chunk.doc_id in gold:
-            results.append(extract_chunk(chunk, recorded))
-            count = _dropped_relations(chunk, recorded.content)
-            if count is None:
-                invalid_chunks.append(chunk.chunk_id)
-            else:
-                dropped_relations += count
-            print(f"проверен {chunk.chunk_id}", flush=True)
+        results.append(extract_chunk(chunk, recorded))
+        count = _dropped_relations(chunk, recorded.content)
+        if count is None:
+            invalid_chunks.append(chunk.chunk_id)
+        else:
+            dropped_relations += count
+        print(f"проверен {chunk.chunk_id}", flush=True)
     metrics = evaluate_extraction(gold, results)
     documents = []
     for doc_id, expected in gold.items():
@@ -96,11 +95,15 @@ def main() -> None:
         "extraction_source_sha256": hashlib.sha256(Path(__file__).with_name("extraction.py").read_bytes()).hexdigest(),
         "created_at": datetime.now(UTC).isoformat(),
         "metrics": metrics,
+        "corpus_chunks": len(results),
+        "corpus_documents": len({result.doc_id for result in results}),
+        "dropped_entities_and_relations_corpus": sum(result.dropped for result in results),
         "dropped_relations": dropped_relations,
         "invalid_response_chunks": invalid_chunks,
         "llm": llm.stats.as_dict(),
         "documents": documents,
-        "note": "dropped — сумма отброшенных сущностей и связей, как в ExtractionResult; "
+        "note": "metrics — оценка на эталонных документах; dropped_relations — число отброшенных связей "
+                "по всему корпусу; dropped — сумма отброшенных сущностей и связей, как в ExtractionResult; "
                 "extra_relations — связи вне обязательного и допустимого эталона.",
     }
     settings.artifacts_dir.mkdir(parents=True, exist_ok=True)
