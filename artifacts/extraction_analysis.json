@@ -1,0 +1,214 @@
+{
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "extraction_source_sha256": "e28c8950466fade35d5fe2e77a193adea21e0b1d34e232e23e430414de335994",
+  "created_at": "2026-11-23T12:15:05.173453+00:00",
+  "metrics": {
+    "relations": {
+      "precision": 1.0,
+      "recall": 0.963,
+      "found": 156,
+      "gold": 161
+    },
+    "entities": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "found": 169,
+      "gold": 165
+    },
+    "dropped": 8,
+    "documents": 16
+  },
+  "corpus_chunks": 92,
+  "corpus_documents": 80,
+  "dropped_entities_and_relations_corpus": 47,
+  "dropped_relations": 47,
+  "invalid_response_chunks": [],
+  "llm": {
+    "calls": 92,
+    "cache_hits": 92,
+    "prompt_tokens": 167448,
+    "completion_tokens": 39332
+  },
+  "documents": [
+    {
+      "doc_id": "manual_AR-210.md",
+      "chunks": 2,
+      "found_relations": 35,
+      "required_relations": 35,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 0
+    },
+    {
+      "doc_id": "manual_AR-310.md",
+      "chunks": 2,
+      "found_relations": 35,
+      "required_relations": 35,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 0
+    },
+    {
+      "doc_id": "manual_BZ-110.md",
+      "chunks": 2,
+      "found_relations": 35,
+      "required_relations": 35,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 0
+    },
+    {
+      "doc_id": "manual_GS-410.md",
+      "chunks": 2,
+      "found_relations": 34,
+      "required_relations": 35,
+      "missing_relations": [
+        [
+          "Part:P-3010",
+          "SUPPLIED_BY",
+          "Supplier:КомпрессорМаш"
+        ]
+      ],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 0
+    },
+    {
+      "doc_id": "bulletin_SB-2025-03.md",
+      "chunks": 1,
+      "found_relations": 3,
+      "required_relations": 3,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 0
+    },
+    {
+      "doc_id": "bulletin_SB-2025-04.md",
+      "chunks": 1,
+      "found_relations": 2,
+      "required_relations": 3,
+      "missing_relations": [
+        [
+          "Part:P-2054",
+          "REPLACED_BY",
+          "Part:P-2054B"
+        ]
+      ],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 1
+    },
+    {
+      "doc_id": "bulletin_SB-2025-08.md",
+      "chunks": 1,
+      "found_relations": 2,
+      "required_relations": 3,
+      "missing_relations": [
+        [
+          "Part:P-2054B",
+          "IS_A",
+          "Component:нагреватель оттайки"
+        ],
+        [
+          "Part:P-2054B",
+          "REPLACED_BY",
+          "Part:P-2054C"
+        ]
+      ],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 1
+    },
+    {
+      "doc_id": "bulletin_SB-2025-10.md",
+      "chunks": 1,
+      "found_relations": 2,
+      "required_relations": 2,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 0
+    },
+    {
+      "doc_id": "procedure_SP-101.md",
+      "chunks": 1,
+      "found_relations": 1,
+      "required_relations": 2,
+      "missing_relations": [
+        [
+          "ErrorCode:E-11",
+          "FIXED_BY",
+          "Procedure:SP-101"
+        ]
+      ],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 1
+    },
+    {
+      "doc_id": "procedure_SP-104.md",
+      "chunks": 1,
+      "found_relations": 2,
+      "required_relations": 2,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 0
+    },
+    {
+      "doc_id": "procedure_SP-112.md",
+      "chunks": 1,
+      "found_relations": 1,
+      "required_relations": 2,
+      "missing_relations": [
+        [
+          "ErrorCode:E-22",
+          "FIXED_BY",
+          "Procedure:SP-112"
+        ]
+      ],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 1
+    },
+    {
+      "doc_id": "procedure_SP-115.md",
+      "chunks": 1,
+      "found_relations": 0,
+      "required_relations": 0,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 0
+    },
+    {
+      "doc_id": "report_R-2025-001.md",
+      "chunks": 1,
+      "found_relations": 1,
+      "required_relations": 1,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 1
+    },
+    {
+      "doc_id": "report_R-2025-002.md",
+      "chunks": 1,
+      "found_relations": 1,
+      "required_relations": 1,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 1
+    },
+    {
+      "doc_id": "report_R-2025-003.md",
+      "chunks": 1,
+      "found_relations": 1,
+      "required_relations": 1,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 1
+    },
+    {
+      "doc_id": "report_R-2025-004.md",
+      "chunks": 1,
+      "found_relations": 1,
+      "required_relations": 1,
+      "missing_relations": [],
+      "extra_relations": [],
+      "dropped_entities_and_relations": 1
+    }
+  ],
+  "note": "metrics — оценка на эталонных документах; dropped_relations — число отброшенных связей по всему корпусу; dropped — сумма отброшенных сущностей и связей, как в ExtractionResult; extra_relations — связи вне обязательного и допустимого эталона."
+}
