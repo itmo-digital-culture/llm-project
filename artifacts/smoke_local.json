@@ -1,0 +1,26 @@
+{
+  "question": "Какую деталь заказать при ошибке E-17 на AR-210?",
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "answer": {
+    "text": "1. E-17 -INDICATES-> пусковое реле  \n2. AR-210 -FAILED-> пусковое реле  \n3. AR-210 -HAS_PART-> P-1042  \n4. P-1042 -IS_A-> пусковое реле  \n5. P-1042 -REPLACED_BY-> P-1042B  \n\nПри ошибке E-17 на AR-210 неисправно пусковое реле, которое является частью AR-210. Деталь P-1042 (пусковое реле) заменена на P-1042B.  \n\nОтвет: заказывать деталь P-1042B.",
+    "sources": [
+      "bulletin_SB-2025-03.md",
+      "manual_AR-210.md",
+      "manual_AR-220.md",
+      "manual_AR-310.md",
+      "manual_AR-320.md",
+      "procedure_SP-104.md",
+      "report_R-2025-012.md",
+      "report_R-2025-028.md"
+    ],
+    "facts": [
+      "E-17 -INDICATES-> пусковое реле",
+      "AR-210 -FAILED-> пусковое реле",
+      "AR-210 -HAS_PART-> P-1042",
+      "P-1042 -IS_A-> пусковое реле",
+      "P-1042 -REPLACED_BY-> P-1042B"
+    ],
+    "refused": false
+  },
+  "graph_sha256": "ee442acffc8631a1fddafab7ff49cfc603152bc756459d6d689518971e3bbf8a"
+}

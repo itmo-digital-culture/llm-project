@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-11-23T12:21:14.221570+00:00",
+  "code_commit": "d334ab9f1c18459325343e137839b58a15bbdf7b",
+  "python_version": "3.12.15",
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "ollama_version": "0.40.4",
+  "ollama_server_command": "OLLAMA_CONTEXT_LENGTH=8192 ollama serve",
+  "commands": [
+    ".venv/bin/python -u -m assistant index",
+    ".venv/bin/python -u -m assistant eval-extraction",
+    ".venv/bin/python -m assistant.graphrag.extraction_audit"
+  ],
+  "checks": {
+    "extraction_and_graph_contract_tests": 13,
+    "passed_tests_excluding_unimplemented_agent": 118,
+    "ruff": "passed",
+    "artifact_consistency": "passed",
+    "cached_index_rebuild": "108/108 cache hits; graph and communities byte-identical",
+    "real_local_search": "P-1042B, bulletin_SB-2025-03.md in sources"
+  },
+  "remaining_team_work": [
+    "agent/tools.py",
+    "agent/agent.py",
+    "four-mode evaluation",
+    "REPORT.pdf",
+    "release tag v1.0"
+  ]
+}
