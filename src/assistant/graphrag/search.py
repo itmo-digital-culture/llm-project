@@ -50,7 +50,12 @@ def local_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
         return Answer(REFUSAL, refused=True)
     names = [f"{kind}:{name}" for kind, name in find_names(question, kb.vocabulary)]
     anchors = sorted(set(codes) | {node for node in names if node in graph})
-    undirected = graph.to_undirected(as_view=True)
+    # У представления DiGraph соседство объединяет множества входящих и исходящих
+    # узлов: его порядок зависит от хешей строк между процессами Python.
+    # Фиксируем порядок узлов и рёбер до обхода путей и отбора под лимит контекста.
+    undirected = nx.Graph()
+    undirected.add_nodes_from(sorted(graph.nodes))
+    undirected.add_edges_from(sorted({tuple(sorted((source, target))) for source, target in graph.edges}))
 
     def fact_groups():
         if len(anchors) >= 2:
